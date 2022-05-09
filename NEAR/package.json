@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "asbuild": "^0.2.0",
+    "assemblyscript": "^0.20.6",
+    "global": "^4.4.0",
+    "near-cli": "^3.2.0"
+  }
+}
