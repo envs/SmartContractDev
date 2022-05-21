@@ -1,0 +1,7 @@
+Structure scripts to:
+    * ^ Deploy
+    * Query proposals
+    * ^GIVE RIGHT TO VOTE: Give vote right passing an address as input
+    * VOTE: Cast a vote to a ballot passing contract address and proposal as input and using the wallet in environment
+    * DELEGATE: Delegate my vote pasing user address as input and using the wallet in environment
+    * WINNER's NAME: Query voting result and print to console
