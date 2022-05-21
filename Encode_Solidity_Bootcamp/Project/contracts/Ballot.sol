@@ -45,12 +45,9 @@ contract Ballot {
      * @param voter address of voter
      */
     function giveRightToVote(address voter) public {
-        require(
-            msg.sender == chairperson,
-            "Only chairperson can give right to vote"
-        );
+        require(msg.sender == chairperson, "Only chairperson gives rights");
         require(!voters[voter].voted, "The voter already voted.");
-        require(voters[voter].weight == 0);
+        require(voters[voter].weight == 0, "Already has right to vote");
         // Give voter the right here
         voters[voter].weight = 1;
     }
