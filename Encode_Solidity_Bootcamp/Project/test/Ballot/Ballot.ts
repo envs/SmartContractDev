@@ -77,21 +77,53 @@ describe("Ballot", function () {
             await giveRightToVote(ballotContract, voterAddress);
             await expect(giveRightToVote(ballotContract, voterAddress)).to.be.revertedWith("");
         });
-    });
 
-    describe("when the voter interact with the vote function in the contract", function () {
-        // TODO
-        it("is not implemented", async function () {
-            throw new Error("Not implemented");
+        it("triggers the NewVoter event with the address of the new voter", async function () {
+            const voterAddress = accounts[1].address;
+            await expect(ballotContract.giveRightToVote(voterAddress))
+                .to.emit(ballotContract, "NewVoter")
+                .withArgs(voterAddress);
         });
     });
 
-    describe("when the voter interact with the delegate function in the contract", function () {
-        // TODO
-        it("is not implemented", async function () {
-            throw new Error("Not implemented");
+    describe("when the voter has voting power", async function () {
+
+        beforeEach(async function () {
+            const voterAddress = accounts[1].address;
+            await giveRightToVote(ballotContract, voterAddress);
+        });
+
+        describe("when the voter interact with the vote function in the contract", function () {
+            it("triggers the Voted event", async function () {
+                await expect(ballotContract.connect(accounts[1]).vote(1))
+                    .to.emit(ballotContract, "Voted")
+                    .withArgs(accounts[1].address, 1, 1);
+            });
+        });
+
+        describe("when the voter interact with the delegate function in the contract", function () {
+            // TODO
+            it("is not implemented", async function () {
+                throw new Error("Not implemented");
+            });
+        });
+
+        describe("when the voter interact with the delegate function in the contract, and the delegate has already voted", function () {
+            // TODO
+            it("is not implemented", async function () {
+                throw new Error("Not implemented");
+            });
+        });
+
+        describe("when the voter interact with the delegate function in the contract, and the delegate has other delegate that has already voted", function () {
+            // TODO
+            it("is not implemented", async function () {
+                throw new Error("Not implemented");
+            });
         });
     });
+
+
 
     describe("when the an attacker interact with the giveRightToVote function in the contract", function () {
         // TODO
