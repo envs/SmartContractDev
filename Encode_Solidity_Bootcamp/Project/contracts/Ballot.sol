@@ -7,6 +7,22 @@ pragma solidity ^0.8.9;
  */
 
 contract Ballot {
+    // Events
+    event NewVoter(address indexed voter);
+    event Voted(
+        address indexed voter,
+        uint256 indexed proposal,
+        uint256 weight
+    );
+    event Delegated(
+        address indexed voter,
+        address indexed finalDelegate,
+        uint256 finalWeight,
+        bool voted,
+        uint256 indexed proposal,
+        uint256 proposalVotes
+    );
+
     // This declares a new complex type which will be used for variables later.
     // It will represent a "single voter".
     struct Voter {
@@ -50,6 +66,7 @@ contract Ballot {
         require(voters[voter].weight == 0, "Already has right to vote");
         // Give voter the right here
         voters[voter].weight = 1;
+        emit NewVoter(voter);
     }
 
     /**
@@ -74,9 +91,18 @@ contract Ballot {
         if (delegate_.voted) {
             // If delegate aleady voted, directly add to the number of votes
             proposals[delegate_.vote].voteCount += sender.weight;
+            emit Delegated(
+                msg.sender,
+                to,
+                0,
+                true,
+                delegate_.vote,
+                proposals[delegate_.vote].voteCount
+            );
         } else {
             // If delegate did not vote yet, add to her weight
             delegate_.weight += sender.weight;
+            emit Delegated(msg.sender, to, delegate_.weight, false, 0, 0);
         }
     }
 
@@ -93,6 +119,8 @@ contract Ballot {
 
         // If 'proposal' is out of the range of the array, this will throw automatically and revert all changes
         proposals[proposal].voteCount += sender.weight;
+
+        emit Voted(msg.sender, proposal, sender.weight); // shouldn't it be sender, rather than msg.sender
     }
 
     /**
