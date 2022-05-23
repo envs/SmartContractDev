@@ -10,7 +10,7 @@ contract EncodeBootcampMayToken is ERC20, AccessControl {
     constructor() ERC20("Encode Bootcamp May Token", "EBMT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
-        _mint(msg.sender, 100 * 10**decimals());
+        //_mint(msg.sender, 100 * 10**decimals());
     }
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
